@@ -1,0 +1,853 @@
+16957:C 04 Sep 2026 16:28:17.010 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+16958:C 04 Sep 2026 16:28:17.011 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+16958:C 04 Sep 2026 16:28:17.011 * Redis version=8.10.1, bits=64, commit=3399357e, modified=0, pid=16958, just started
+16958:C 04 Sep 2026 16:28:17.011 * Configuration loaded
+16958:M 04 Sep 2026 16:28:17.014 * monotonic clock: POSIX clock_gettime
+16958:M 04 Sep 2026 16:28:17.015 # Failed to write PID file: Permission denied
+16958:M 04 Sep 2026 16:28:17.015 * Running mode=standalone, port=6396.
+16958:M 04 Sep 2026 16:28:17.016 * Server initialized
+16958:M 04 Sep 2026 16:28:17.016 * Ready to accept connections tcp
+16958:M 04 Sep 2026 16:28:17.016 # WARNING: Redis does not require authentication. Redis will accept connections from any local client.
+16958:M 04 Sep 2026 16:28:19.022 # Out Of Memory allocating 34359738360 bytes!
+
+
+=== REDIS BUG REPORT START: Cut & paste starting from here ===
+16958:M 04 Sep 2026 16:28:19.022 # ------------------------------------------------
+16958:M 04 Sep 2026 16:28:19.022 # !!! Software Failure. Press left mouse button to continue
+16958:M 04 Sep 2026 16:28:19.022 # Guru Meditation: Redis aborting for OUT OF MEMORY. Allocating 34359738360 bytes! #server.c:7824
+
+------ STACK TRACE ------
+
+16960 bio_close_file
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xaca82) [0x75e0604aca82]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa058c) [0x75e0604a058c]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa0967) [0x75e0604a0967]
+/usr/lib/x86_64-linux-gnu/libc.so.6(pthread_cond_wait+0x197) [0x75e0604a3347]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(bioProcessBackgroundJobs+0x1d0) [0x5f98e0d8bd50]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa407a) [0x75e0604a407a]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x13772c) [0x75e06053772c]
+
+16958 redis-server *
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(redisOutOfMemoryHandler+0x30) [0x5f98e0cb93b0]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(zmalloc_usable+0x73) [0x5f98e0ccf1e3]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(VectorSetRdbLoad+0x1ba) [0x5f98e0e1204a]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(rdbLoadObject+0x957) [0x5f98e0d0b9c7]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(restoreCommand+0x348) [0x5f98e0d68e88]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(call+0xed) [0x5f98e0cbf4dd]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(processCommand+0xad8) [0x5f98e0cc1c08]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(processCommandAndResetClient+0x20) [0x5f98e0cdd170]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(processInputBuffer+0x82c) [0x5f98e0ce651c]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(readQueryFromClient+0x1ee) [0x5f98e0ce6d6e]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(+0x1df4c2) [0x5f98e0df64c2]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(aeProcessEvents+0x18c) [0x5f98e0ca903c]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(aeMain+0x1d) [0x5f98e0ca94ed]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(main+0x36f) [0x5f98e0ca1b1f]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x2a601) [0x75e06042a601]
+/usr/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x88) [0x75e06042a718]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(_start+0x25) [0x5f98e0ca3505]
+
+16961 bio_aof
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xaca82) [0x75e0604aca82]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa058c) [0x75e0604a058c]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa0967) [0x75e0604a0967]
+/usr/lib/x86_64-linux-gnu/libc.so.6(pthread_cond_wait+0x197) [0x75e0604a3347]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(bioProcessBackgroundJobs+0x1d0) [0x5f98e0d8bd50]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa407a) [0x75e0604a407a]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x13772c) [0x75e06053772c]
+
+16962 bio_lazy_free
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xaca82) [0x75e0604aca82]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa058c) [0x75e0604a058c]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa0967) [0x75e0604a0967]
+/usr/lib/x86_64-linux-gnu/libc.so.6(pthread_cond_wait+0x197) [0x75e0604a3347]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(bioProcessBackgroundJobs+0x1d0) [0x5f98e0d8bd50]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa407a) [0x75e0604a407a]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x13772c) [0x75e06053772c]
+
+4/4 expected stacktraces.
+
+------ STACK TRACE DONE ------
+
+------ INFO OUTPUT ------
+# Server
+redis_version:8.10.1
+redis_git_sha1:3399357e
+redis_git_dirty:0
+redis_build_id:db18f1b4f9616aef
+redis_mode:standalone
+os:Linux 7.0.0-30-generic x86_64
+arch_bits:64
+monotonic_clock:POSIX clock_gettime
+multiplexing_api:epoll
+atomicvar_api:c11-builtin
+gcc_version:15.2.0
+process_id:16958
+process_supervised:no
+run_id:ceee6b51b16da6a7514a19da1989de0e73f08c00
+tcp_port:6396
+server_time_usec:1788510499021957
+uptime_in_seconds:2
+uptime_in_days:0
+hz:10
+configured_hz:10
+lru_clock:10125602
+executable:/home/lian/lian/redis/src/redis-8.10.1/src/redis-server
+config_file:
+io_threads_active:0
+listener0:name=tcp,bind=*,bind=-::*,port=6396
+
+# Clients
+connected_clients:1
+cluster_connections:0
+maxclients:10000
+client_recent_max_input_buffer:0
+client_recent_max_output_buffer:0
+blocked_clients:0
+tracking_clients:0
+pubsub_clients:0
+watching_clients:0
+clients_in_timeout_table:0
+active_clients:1
+total_watched_keys:0
+total_blocking_keys:0
+total_blocking_keys_on_nokey:0
+
+# Memory
+used_memory:779656
+used_memory_human:761.38K
+used_memory_rss:5353472
+used_memory_rss_human:5.11M
+used_memory_peak:779936
+used_memory_peak_human:761.66K
+used_memory_peak_time:1788510499
+used_memory_peak_perc:102.71%
+used_memory_overhead:808872
+used_memory_startup:740984
+used_memory_dataset:0
+used_memory_dataset_perc:0.00%
+allocator_allocated:741152
+allocator_active:5353472
+allocator_resident:5353472
+allocator_muzzy:0
+total_system_memory:7734898688
+total_system_memory_human:7.20G
+used_memory_lua:32768
+used_memory_vm_eval:32768
+used_memory_lua_human:32.00K
+used_memory_scripts_eval:0
+number_of_cached_scripts:0
+number_of_functions:0
+number_of_libraries:0
+used_memory_vm_functions:34816
+used_memory_vm_total:67584
+used_memory_vm_total_human:66.00K
+used_memory_functions:232
+used_memory_hash_templates:72
+used_memory_scripts:232
+used_memory_scripts_human:232B
+maxmemory:0
+maxmemory_human:0B
+maxmemory_policy:noeviction
+allocator_frag_ratio:1.00
+allocator_frag_bytes:0
+allocator_rss_ratio:1.00
+allocator_rss_bytes:0
+rss_overhead_ratio:1.00
+rss_overhead_bytes:0
+mem_fragmentation_ratio:7.22
+mem_fragmentation_bytes:4612320
+mem_not_counted_for_evict:0
+mem_replication_backlog:0
+mem_total_replication_buffers:0
+mem_replica_full_sync_buffer:0
+mem_clients_slaves:0
+mem_clients_normal:0
+mem_clients_normal_shared:0
+mem_clients_normal_unshared:0
+mem_cluster_slot_migration_output_buffer:0
+mem_cluster_slot_migration_input_buffer:0
+mem_cluster_slot_migration_input_buffer_peak:0
+mem_cluster_links:0
+mem_aof_buffer:0
+mem_allocator:libc
+mem_overhead_db_hashtable_rehashing:0
+active_defrag_running:0
+lazyfree_pending_objects:0
+lazyfreed_objects:0
+
+# Persistence
+loading:0
+async_loading:0
+current_cow_peak:0
+current_cow_size:0
+current_cow_size_age:0
+current_fork_perc:0.00
+current_save_keys_processed:0
+current_save_keys_total:0
+rdb_changes_since_last_save:0
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1788510497
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:-1
+rdb_current_bgsave_time_sec:-1
+rdb_saves:0
+rdb_saves_consecutive_failures:0
+rdb_last_cow_size:0
+rdb_last_load_keys_expired:0
+rdb_last_load_keys_loaded:0
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+aof_last_bgrewrite_status:ok
+aof_rewrites:0
+aof_rewrites_consecutive_failures:0
+aof_last_write_status:ok
+aof_last_cow_size:0
+backup_in_progress:0
+module_fork_in_progress:0
+module_fork_last_cow_size:0
+
+# Threads
+io_thread_0:clients=1,reads=1,writes=0
+
+# Stats
+total_connections_received:1
+total_commands_processed:0
+instantaneous_ops_per_sec:0
+total_net_input_bytes:113
+total_net_output_bytes:0
+total_net_repl_input_bytes:0
+total_net_repl_output_bytes:0
+instantaneous_input_kbps:0.00
+instantaneous_output_kbps:0.00
+instantaneous_input_repl_kbps:0.00
+instantaneous_output_repl_kbps:0.00
+rejected_connections:0
+sync_full:0
+sync_partial_ok:0
+sync_partial_err:0
+expired_subkeys:0
+expired_subkeys_active:0
+expired_keys:0
+expired_keys_active:0
+expired_stale_perc:0.00
+expired_time_cap_reached_count:0
+expire_cycle_cpu_milliseconds:0
+evicted_keys:0
+evicted_clients:0
+evicted_scripts:0
+total_eviction_exceeded_time:0
+current_eviction_exceeded_time:0
+keyspace_hits:0
+keyspace_misses:0
+pubsub_channels:0
+pubsub_patterns:0
+pubsubshard_channels:0
+latest_fork_usec:0
+total_forks:0
+migrate_cached_sockets:0
+slave_expires_tracked_keys:0
+active_defrag_hits:0
+active_defrag_misses:0
+active_defrag_key_hits:0
+active_defrag_key_misses:0
+total_active_defrag_time:0
+current_active_defrag_time:0
+tracking_total_keys:0
+tracking_total_items:0
+tracking_total_prefixes:0
+unexpected_error_replies:0
+total_error_replies:0
+dump_payload_sanitizations:0
+total_reads_processed:1
+total_writes_processed:0
+io_threaded_reads_processed:0
+io_threaded_writes_processed:0
+io_threaded_total_prefetch_batches:0
+io_threaded_total_prefetch_entries:0
+client_query_buffer_limit_disconnections:0
+client_output_buffer_limit_disconnections:0
+reply_buffer_shrinks:0
+reply_buffer_expands:0
+eventloop_cycles:21
+eventloop_duration_sum:2273
+eventloop_duration_cmd_sum:0
+instantaneous_eventloop_cycles_per_sec:9
+instantaneous_eventloop_duration_usec:112
+eventloop_cycles_with_clients_processing:0
+total_client_processing_events:1
+avg_pipeline_length_sum:1
+avg_pipeline_length_cnt:1
+avg_pipeline_length:1.00
+slowlog_commands_count:0
+slowlog_commands_time_ms_max:0.00
+slowlog_commands_time_ms_sum:0.00
+hash_templates:0
+hash_template_keys:0
+acl_access_denied_auth:0
+acl_access_denied_cmd:0
+acl_access_denied_key:0
+acl_access_denied_channel:0
+acl_access_denied_tls_cert:0
+
+# Replication
+role:master
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:4d1875a29867e71a23f8eea1534b0c88ea90a6e8
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:0
+second_repl_offset:-1
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+
+# CPU
+used_cpu_sys:0.008159
+used_cpu_user:0.004079
+used_cpu_sys_children:0.000000
+used_cpu_user_children:0.000000
+used_cpu_sys_main_thread:0.007870
+used_cpu_user_main_thread:0.003935
+
+# Hotkeys
+
+# Modules
+module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[handle-io-errors|handle-repl-async-load]
+
+# Commandstats
+
+# Errorstats
+
+# Latencystats
+
+# Cluster
+cluster_enabled:0
+
+# Keyspace
+
+# Keysizes
+
+------ CLIENT LIST OUTPUT ------
+id=4 addr=127.0.0.1:49584 laddr=127.0.0.1:6396 fd=12 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 watch=0 qbuf=113 qbuf-free=16273 argv-mem=84 multi-mem=0 rbs=16392 rbp=16392 obl=0 oll=0 omem=0 omem-shared=0 omem-unshared=0 tot-mem=34028 events=r cmd=restore user=default redir=-1 resp=2 lib-name= lib-ver= io-thread=0 tot-net-in=113 tot-net-out=0 tot-cmds=0 read-events=1 avg-pipeline-len-sum=1 avg-pipeline-len-cnt=1
+
+------ CURRENT CLIENT INFO ------
+id=4 addr=127.0.0.1:49584 laddr=127.0.0.1:6396 fd=12 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 watch=0 qbuf=113 qbuf-free=16273 argv-mem=84 multi-mem=0 rbs=16392 rbp=16392 obl=0 oll=0 omem=0 omem-shared=0 omem-unshared=0 tot-mem=34028 events=r cmd=restore user=default redir=-1 resp=2 lib-name= lib-ver= io-thread=0 tot-net-in=113 tot-net-out=0 tot-cmds=0 read-events=1 avg-pipeline-len-sum=1 avg-pipeline-len-cnt=1
+argc: '4'
+argv[0]: '"RESTORE"'
+argv[1]: '"plain"'
+argv[2]: '"0"'
+argv[3]: '"\a\x81\xbd\xe7-\xa2\xbb\x1e\xb4\x00\x02\x02\x02\x01\x02P\x01\x02\x00\x05\x05elem1\x05\x02?\x7f\x02\x80\xff\xff\xff\xff\x02\x01\x02\x80\x01\x00\x00\x00\x02\x00\x02 \x02\x00\x02\x81?d\xf9.@\x0f\x1b\xbd\x00\x0f\x00N\xcb9k\xa4\xc2\x97\xbe"'
+
+------ EXECUTING CLIENT INFO ------
+id=4 addr=127.0.0.1:49584 laddr=127.0.0.1:6396 fd=12 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 watch=0 qbuf=113 qbuf-free=16273 argv-mem=84 multi-mem=0 rbs=16392 rbp=16392 obl=0 oll=0 omem=0 omem-shared=0 omem-unshared=0 tot-mem=34028 events=r cmd=restore user=default redir=-1 resp=2 lib-name= lib-ver= io-thread=0 tot-net-in=113 tot-net-out=0 tot-cmds=0 read-events=1 avg-pipeline-len-sum=1 avg-pipeline-len-cnt=1
+argc: '4'
+argv[0]: '"RESTORE"'
+argv[1]: '"plain"'
+argv[2]: '"0"'
+argv[3]: '"\a\x81\xbd\xe7-\xa2\xbb\x1e\xb4\x00\x02\x02\x02\x01\x02P\x01\x02\x00\x05\x05elem1\x05\x02?\x7f\x02\x80\xff\xff\xff\xff\x02\x01\x02\x80\x01\x00\x00\x00\x02\x00\x02 \x02\x00\x02\x81?d\xf9.@\x0f\x1b\xbd\x00\x0f\x00N\xcb9k\xa4\xc2\x97\xbe"'
+
+------ MODULES INFO OUTPUT ------
+
+------ CONFIG DEBUG OUTPUT ------
+list-compress-depth 0
+sanitize-dump-payload no
+lazyfree-lazy-eviction no
+lazyfree-lazy-user-del no
+activedefrag no
+proto-max-bulk-len 512mb
+lazyfree-lazy-expire no
+io-threads 1
+client-query-buffer-limit 1gb
+replica-read-only yes
+lazyfree-lazy-user-flush no
+lazyfree-lazy-server-del no
+slave-read-only yes
+repl-diskless-load disabled
+repl-diskless-sync yes
+
+------ FAST MEMORY TEST ------
+16958:M 04 Sep 2026 16:28:19.025 # Bio worker thread #0 terminated
+16958:M 04 Sep 2026 16:28:19.025 # Bio worker thread #1 terminated
+16958:M 04 Sep 2026 16:28:19.025 # Bio worker thread #2 terminated
+*** Preparing to test memory region 5f98e0f5b000 (192512 bytes)
+*** Preparing to test memory region 5f9913a91000 (270336 bytes)
+*** Preparing to test memory region 5f9913ad3000 (847872 bytes)
+*** Preparing to test memory region 75e058000000 (135168 bytes)
+*** Preparing to test memory region 75e05e5fd000 (25178112 bytes)
+*** Preparing to test memory region 75e060614000 (53248 bytes)
+*** Preparing to test memory region 75e060666000 (12288 bytes)
+*** Preparing to test memory region 75e0607a4000 (8192 bytes)
+*** Preparing to test memory region 75e0607ec000 (4096 bytes)
+.O.O.O.O.16958:M 04 Sep 2026 16:28:19.029 # Redis 8.10.1 crashed by signal: 11, si_code: 1
+16958:M 04 Sep 2026 16:28:19.029 # Accessing address: 0x75e05e5fd000
+16958:M 04 Sep 2026 16:28:19.029 # Crashed running the instruction at: 0x75e060597b4d
+
+------ STACK TRACE ------
+EIP:
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x197b4d) [0x75e060597b4d]
+
+16958 redis-server *
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x45cb0) [0x75e060445cb0]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x197b4d) [0x75e060597b4d]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(memtest_preserving_test+0xc2) [0x5f98e0d8eae2]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(memtest_test_linux_anonymous_maps+0x1f5) [0x5f98e0d609b5]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(doFastMemoryTest+0x2f) [0x5f98e0d60b4f]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(_serverPanic+0x1fc) [0x5f98e0d614cc]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(redisOutOfMemoryHandler+0x30) [0x5f98e0cb93b0]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(zmalloc_usable+0x73) [0x5f98e0ccf1e3]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(VectorSetRdbLoad+0x1ba) [0x5f98e0e1204a]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(rdbLoadObject+0x957) [0x5f98e0d0b9c7]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(restoreCommand+0x348) [0x5f98e0d68e88]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(call+0xed) [0x5f98e0cbf4dd]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(processCommand+0xad8) [0x5f98e0cc1c08]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(processCommandAndResetClient+0x20) [0x5f98e0cdd170]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(processInputBuffer+0x82c) [0x5f98e0ce651c]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(readQueryFromClient+0x1ee) [0x5f98e0ce6d6e]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(+0x1df4c2) [0x5f98e0df64c2]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(aeProcessEvents+0x18c) [0x5f98e0ca903c]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(aeMain+0x1d) [0x5f98e0ca94ed]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(main+0x36f) [0x5f98e0ca1b1f]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x2a601) [0x75e06042a601]
+/usr/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x88) [0x75e06042a718]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(_start+0x25) [0x5f98e0ca3505]
+
+1/1 expected stacktraces.
+
+------ STACK TRACE DONE ------
+
+------ REGISTERS ------
+16958:M 04 Sep 2026 16:28:19.030 # 
+RAX:00007ffe9c0400d0 RBX:000075e05e5fd000
+RCX:0000000000000002 RDX:0000000000100000
+RDI:00007ffe9c0400d0 RSI:000075e05e5fd000
+RBP:0000000000000000 RSP:00007ffe9c040088
+R8 :0000000000000000 R9 :0000000000000000
+R10:0000000000000000 R11:00007ffe9c0400e8
+R12:0000000001703000 R13:0000000000100000
+R14:00007ffe9c140540 R15:0000000000100000
+RIP:000075e060597b4d EFL:0000000000010202
+CSGSFS:002b000000000033
+16958:M 04 Sep 2026 16:28:19.030 # (00007ffe9c040097) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.030 # (00007ffe9c040096) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.030 # (00007ffe9c040095) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.030 # (00007ffe9c040094) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.030 # (00007ffe9c040093) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.030 # (00007ffe9c040092) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.030 # (00007ffe9c040091) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.031 # (00007ffe9c040090) -> 0000000100000000
+16958:M 04 Sep 2026 16:28:19.031 # (00007ffe9c04008f) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.031 # (00007ffe9c04008e) -> 0000000000002000
+16958:M 04 Sep 2026 16:28:19.031 # (00007ffe9c04008d) -> 00007ffe9c0400d0
+16958:M 04 Sep 2026 16:28:19.031 # (00007ffe9c04008c) -> 0000000000000001
+16958:M 04 Sep 2026 16:28:19.031 # (00007ffe9c04008b) -> 0000000000000400
+16958:M 04 Sep 2026 16:28:19.031 # (00007ffe9c04008a) -> 0000000000000001
+16958:M 04 Sep 2026 16:28:19.031 # (00007ffe9c040089) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.031 # (00007ffe9c040088) -> 00005f98e0d8eae2
+
+------ INFO OUTPUT ------
+# Server
+redis_version:8.10.1
+redis_git_sha1:3399357e
+redis_git_dirty:0
+redis_build_id:db18f1b4f9616aef
+redis_mode:standalone
+os:Linux 7.0.0-30-generic x86_64
+arch_bits:64
+monotonic_clock:POSIX clock_gettime
+multiplexing_api:epoll
+atomicvar_api:c11-builtin
+gcc_version:15.2.0
+process_id:16958
+process_supervised:no
+run_id:ceee6b51b16da6a7514a19da1989de0e73f08c00
+tcp_port:6396
+server_time_usec:1788510499021957
+uptime_in_seconds:2
+uptime_in_days:0
+hz:10
+configured_hz:10
+lru_clock:10125602
+executable:/home/lian/lian/redis/src/redis-8.10.1/src/redis-server
+config_file:
+io_threads_active:0
+listener0:name=tcp,bind=*,bind=-::*,port=6396
+
+# Clients
+connected_clients:1
+cluster_connections:0
+maxclients:10000
+client_recent_max_input_buffer:0
+client_recent_max_output_buffer:0
+blocked_clients:0
+tracking_clients:0
+pubsub_clients:0
+watching_clients:0
+clients_in_timeout_table:0
+active_clients:1
+total_watched_keys:0
+total_blocking_keys:0
+total_blocking_keys_on_nokey:0
+
+# Memory
+used_memory:779704
+used_memory_human:761.43K
+used_memory_rss:5353472
+used_memory_rss_human:5.11M
+used_memory_peak:787792
+used_memory_peak_human:769.33K
+used_memory_peak_time:1788510499
+used_memory_peak_perc:99.97%
+used_memory_overhead:808872
+used_memory_startup:740984
+used_memory_dataset:0
+used_memory_dataset_perc:0.00%
+allocator_allocated:741152
+allocator_active:5353472
+allocator_resident:5353472
+allocator_muzzy:0
+total_system_memory:7734898688
+total_system_memory_human:7.20G
+used_memory_lua:32768
+used_memory_vm_eval:32768
+used_memory_lua_human:32.00K
+used_memory_scripts_eval:0
+number_of_cached_scripts:0
+number_of_functions:0
+number_of_libraries:0
+used_memory_vm_functions:34816
+used_memory_vm_total:67584
+used_memory_vm_total_human:66.00K
+used_memory_functions:232
+used_memory_hash_templates:72
+used_memory_scripts:232
+used_memory_scripts_human:232B
+maxmemory:0
+maxmemory_human:0B
+maxmemory_policy:noeviction
+allocator_frag_ratio:1.00
+allocator_frag_bytes:0
+allocator_rss_ratio:1.00
+allocator_rss_bytes:0
+rss_overhead_ratio:1.00
+rss_overhead_bytes:0
+mem_fragmentation_ratio:7.22
+mem_fragmentation_bytes:4612320
+mem_not_counted_for_evict:0
+mem_replication_backlog:0
+mem_total_replication_buffers:0
+mem_replica_full_sync_buffer:0
+mem_clients_slaves:0
+mem_clients_normal:0
+mem_clients_normal_shared:0
+mem_clients_normal_unshared:0
+mem_cluster_slot_migration_output_buffer:0
+mem_cluster_slot_migration_input_buffer:0
+mem_cluster_slot_migration_input_buffer_peak:0
+mem_cluster_links:0
+mem_aof_buffer:0
+mem_allocator:libc
+mem_overhead_db_hashtable_rehashing:0
+active_defrag_running:0
+lazyfree_pending_objects:0
+lazyfreed_objects:0
+
+# Persistence
+loading:0
+async_loading:0
+current_cow_peak:0
+current_cow_size:0
+current_cow_size_age:0
+current_fork_perc:0.00
+current_save_keys_processed:0
+current_save_keys_total:0
+rdb_changes_since_last_save:0
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1788510497
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:-1
+rdb_current_bgsave_time_sec:-1
+rdb_saves:0
+rdb_saves_consecutive_failures:0
+rdb_last_cow_size:0
+rdb_last_load_keys_expired:0
+rdb_last_load_keys_loaded:0
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+aof_last_bgrewrite_status:ok
+aof_rewrites:0
+aof_rewrites_consecutive_failures:0
+aof_last_write_status:ok
+aof_last_cow_size:0
+backup_in_progress:0
+module_fork_in_progress:0
+module_fork_last_cow_size:0
+
+# Threads
+io_thread_0:clients=1,reads=1,writes=0
+
+# Stats
+total_connections_received:1
+total_commands_processed:0
+instantaneous_ops_per_sec:0
+total_net_input_bytes:113
+total_net_output_bytes:0
+total_net_repl_input_bytes:0
+total_net_repl_output_bytes:0
+instantaneous_input_kbps:0.00
+instantaneous_output_kbps:0.00
+instantaneous_input_repl_kbps:0.00
+instantaneous_output_repl_kbps:0.00
+rejected_connections:0
+sync_full:0
+sync_partial_ok:0
+sync_partial_err:0
+expired_subkeys:0
+expired_subkeys_active:0
+expired_keys:0
+expired_keys_active:0
+expired_stale_perc:0.00
+expired_time_cap_reached_count:0
+expire_cycle_cpu_milliseconds:0
+evicted_keys:0
+evicted_clients:0
+evicted_scripts:0
+total_eviction_exceeded_time:0
+current_eviction_exceeded_time:0
+keyspace_hits:0
+keyspace_misses:0
+pubsub_channels:0
+pubsub_patterns:0
+pubsubshard_channels:0
+latest_fork_usec:0
+total_forks:0
+migrate_cached_sockets:0
+slave_expires_tracked_keys:0
+active_defrag_hits:0
+active_defrag_misses:0
+active_defrag_key_hits:0
+active_defrag_key_misses:0
+total_active_defrag_time:0
+current_active_defrag_time:0
+tracking_total_keys:0
+tracking_total_items:0
+tracking_total_prefixes:0
+unexpected_error_replies:0
+total_error_replies:0
+dump_payload_sanitizations:0
+total_reads_processed:1
+total_writes_processed:0
+io_threaded_reads_processed:0
+io_threaded_writes_processed:0
+io_threaded_total_prefetch_batches:0
+io_threaded_total_prefetch_entries:0
+client_query_buffer_limit_disconnections:0
+client_output_buffer_limit_disconnections:0
+reply_buffer_shrinks:0
+reply_buffer_expands:0
+eventloop_cycles:21
+eventloop_duration_sum:2273
+eventloop_duration_cmd_sum:0
+instantaneous_eventloop_cycles_per_sec:9
+instantaneous_eventloop_duration_usec:112
+eventloop_cycles_with_clients_processing:0
+total_client_processing_events:1
+avg_pipeline_length_sum:1
+avg_pipeline_length_cnt:1
+avg_pipeline_length:1.00
+slowlog_commands_count:0
+slowlog_commands_time_ms_max:0.00
+slowlog_commands_time_ms_sum:0.00
+hash_templates:0
+hash_template_keys:0
+acl_access_denied_auth:0
+acl_access_denied_cmd:0
+acl_access_denied_key:0
+acl_access_denied_channel:0
+acl_access_denied_tls_cert:0
+
+# Replication
+role:master
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:4d1875a29867e71a23f8eea1534b0c88ea90a6e8
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:0
+second_repl_offset:-1
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+
+# CPU
+used_cpu_sys:0.010888
+used_cpu_user:0.007258
+used_cpu_sys_children:0.000000
+used_cpu_user_children:0.000000
+used_cpu_sys_main_thread:0.010555
+used_cpu_user_main_thread:0.007037
+
+# Hotkeys
+
+# Modules
+module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[handle-io-errors|handle-repl-async-load]
+
+# Commandstats
+
+# Errorstats
+
+# Latencystats
+
+# Cluster
+cluster_enabled:0
+
+# Keyspace
+
+# Keysizes
+
+------ CLIENT LIST OUTPUT ------
+id=4 addr=127.0.0.1:49584 laddr=127.0.0.1:6396 fd=12 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 watch=0 qbuf=113 qbuf-free=16273 argv-mem=84 multi-mem=0 rbs=16392 rbp=16392 obl=0 oll=0 omem=0 omem-shared=0 omem-unshared=0 tot-mem=34028 events=r cmd=restore user=default redir=-1 resp=2 lib-name= lib-ver= io-thread=0 tot-net-in=113 tot-net-out=0 tot-cmds=0 read-events=1 avg-pipeline-len-sum=1 avg-pipeline-len-cnt=1
+
+------ CURRENT CLIENT INFO ------
+id=4 addr=127.0.0.1:49584 laddr=127.0.0.1:6396 fd=12 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 watch=0 qbuf=113 qbuf-free=16273 argv-mem=84 multi-mem=0 rbs=16392 rbp=16392 obl=0 oll=0 omem=0 omem-shared=0 omem-unshared=0 tot-mem=34028 events=r cmd=restore user=default redir=-1 resp=2 lib-name= lib-ver= io-thread=0 tot-net-in=113 tot-net-out=0 tot-cmds=0 read-events=1 avg-pipeline-len-sum=1 avg-pipeline-len-cnt=1
+argc: '4'
+argv[0]: '"RESTORE"'
+argv[1]: '"plain"'
+argv[2]: '"0"'
+argv[3]: '"\a\x81\xbd\xe7-\xa2\xbb\x1e\xb4\x00\x02\x02\x02\x01\x02P\x01\x02\x00\x05\x05elem1\x05\x02?\x7f\x02\x80\xff\xff\xff\xff\x02\x01\x02\x80\x01\x00\x00\x00\x02\x00\x02 \x02\x00\x02\x81?d\xf9.@\x0f\x1b\xbd\x00\x0f\x00N\xcb9k\xa4\xc2\x97\xbe"'
+
+------ EXECUTING CLIENT INFO ------
+id=4 addr=127.0.0.1:49584 laddr=127.0.0.1:6396 fd=12 name= age=0 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 watch=0 qbuf=113 qbuf-free=16273 argv-mem=84 multi-mem=0 rbs=16392 rbp=16392 obl=0 oll=0 omem=0 omem-shared=0 omem-unshared=0 tot-mem=34028 events=r cmd=restore user=default redir=-1 resp=2 lib-name= lib-ver= io-thread=0 tot-net-in=113 tot-net-out=0 tot-cmds=0 read-events=1 avg-pipeline-len-sum=1 avg-pipeline-len-cnt=1
+argc: '4'
+argv[0]: '"RESTORE"'
+argv[1]: '"plain"'
+argv[2]: '"0"'
+argv[3]: '"\a\x81\xbd\xe7-\xa2\xbb\x1e\xb4\x00\x02\x02\x02\x01\x02P\x01\x02\x00\x05\x05elem1\x05\x02?\x7f\x02\x80\xff\xff\xff\xff\x02\x01\x02\x80\x01\x00\x00\x00\x02\x00\x02 \x02\x00\x02\x81?d\xf9.@\x0f\x1b\xbd\x00\x0f\x00N\xcb9k\xa4\xc2\x97\xbe"'
+
+------ MODULES INFO OUTPUT ------
+
+------ CONFIG DEBUG OUTPUT ------
+list-compress-depth 0
+sanitize-dump-payload no
+lazyfree-lazy-eviction no
+lazyfree-lazy-user-del no
+activedefrag no
+proto-max-bulk-len 512mb
+lazyfree-lazy-expire no
+io-threads 1
+client-query-buffer-limit 1gb
+replica-read-only yes
+lazyfree-lazy-user-flush no
+lazyfree-lazy-server-del no
+slave-read-only yes
+repl-diskless-load disabled
+repl-diskless-sync yes
+
+------ FAST MEMORY TEST ------
+16958:M 04 Sep 2026 16:28:19.031 # Bio worker thread #0 terminated
+16958:M 04 Sep 2026 16:28:19.031 # Bio worker thread #1 terminated
+16958:M 04 Sep 2026 16:28:19.031 # Bio worker thread #2 terminated
+*** Preparing to test memory region 5f98e0f5b000 (192512 bytes)
+*** Preparing to test memory region 5f9913a91000 (270336 bytes)
+*** Preparing to test memory region 5f9913ad3000 (847872 bytes)
+*** Preparing to test memory region 75e058000000 (135168 bytes)
+*** Preparing to test memory region 75e05e5fd000 (25178112 bytes)
+*** Preparing to test memory region 75e060614000 (53248 bytes)
+*** Preparing to test memory region 75e060666000 (12288 bytes)
+*** Preparing to test memory region 75e0607a4000 (8192 bytes)
+*** Preparing to test memory region 75e0607ec000 (4096 bytes)
+.O.O.O.O.16958:signal-handler (1788510499) Crashed running signal handler. Providing reduced version of recursive crash report.
+16958:M 04 Sep 2026 16:28:19.034 # Redis 8.10.1 crashed by signal: 11, si_code: 1
+16958:M 04 Sep 2026 16:28:19.034 # Accessing address: 0x75e05e5fd000
+16958:M 04 Sep 2026 16:28:19.034 # Crashed running the instruction at: 0x75e060597b4d
+
+------ STACK TRACE ------
+EIP:
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x197b4d) [0x75e060597b4d]
+
+Backtrace:
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x45cb0) [0x75e060445cb0]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x197b4d) [0x75e060597b4d]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(memtest_preserving_test+0xc2) [0x5f98e0d8eae2]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(memtest_test_linux_anonymous_maps+0x1f5) [0x5f98e0d609b5]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(doFastMemoryTest+0x2f) [0x5f98e0d60b4f]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(+0x14e77d) [0x5f98e0d6577d]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x45cb0) [0x75e060445cb0]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x197b4d) [0x75e060597b4d]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(memtest_preserving_test+0xc2) [0x5f98e0d8eae2]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(memtest_test_linux_anonymous_maps+0x1f5) [0x5f98e0d609b5]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(doFastMemoryTest+0x2f) [0x5f98e0d60b4f]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(_serverPanic+0x1fc) [0x5f98e0d614cc]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(redisOutOfMemoryHandler+0x30) [0x5f98e0cb93b0]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(zmalloc_usable+0x73) [0x5f98e0ccf1e3]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(VectorSetRdbLoad+0x1ba) [0x5f98e0e1204a]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(rdbLoadObject+0x957) [0x5f98e0d0b9c7]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(restoreCommand+0x348) [0x5f98e0d68e88]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(call+0xed) [0x5f98e0cbf4dd]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(processCommand+0xad8) [0x5f98e0cc1c08]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(processCommandAndResetClient+0x20) [0x5f98e0cdd170]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(processInputBuffer+0x82c) [0x5f98e0ce651c]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(readQueryFromClient+0x1ee) [0x5f98e0ce6d6e]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(+0x1df4c2) [0x5f98e0df64c2]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(aeProcessEvents+0x18c) [0x5f98e0ca903c]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(aeMain+0x1d) [0x5f98e0ca94ed]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(main+0x36f) [0x5f98e0ca1b1f]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x2a601) [0x75e06042a601]
+/usr/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x88) [0x75e06042a718]
+/home/lian/lian/redis/src/redis-8.10.1/src/redis-server *:6396(_start+0x25) [0x5f98e0ca3505]
+
+------ STACK TRACE DONE ------
+
+------ REGISTERS ------
+16958:M 04 Sep 2026 16:28:19.035 # 
+RAX:00007ffe9bf3e280 RBX:000075e05e5fd000
+RCX:0000000000000002 RDX:0000000000100000
+RDI:00007ffe9bf3e280 RSI:000075e05e5fd000
+RBP:0000000000000000 RSP:00007ffe9bf3e238
+R8 :0000000000000000 R9 :0000000000000000
+R10:0000000000000000 R11:00007ffe9bf3e298
+R12:0000000001703000 R13:0000000000100000
+R14:00007ffe9c03e6f0 R15:0000000000100000
+RIP:000075e060597b4d EFL:0000000000010202
+CSGSFS:002b000000000033
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e247) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e246) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e245) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e244) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e243) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e242) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e241) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e240) -> 0000000100000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e23f) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e23e) -> 0000000000002000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e23d) -> 00007ffe9bf3e280
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e23c) -> 0000000000000001
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e23b) -> 0000000000000400
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e23a) -> 0000000000000001
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e239) -> 0000000000000000
+16958:M 04 Sep 2026 16:28:19.035 # (00007ffe9bf3e238) -> 00005f98e0d8eae2
+
+------ DUMPING CODE AROUND EIP ------
+Symbol: (null) (base: (nil))
+Module: /usr/lib/x86_64-linux-gnu/libc.so.6 (base 0x75e060400000)
+$ xxd -r -p /tmp/dump.hex /tmp/dump.bin
+$ objdump --adjust-vma=(nil) -D -b binary -m i386:x86-64 /tmp/dump.bin
+------
+
+=== REDIS BUG REPORT END. Make sure to include from START to END. ===
+
+       Please report the crash by opening an issue on github:
+
+           http://github.com/redis/redis/issues
+
+  If a Redis module was involved, please open in the module's repo instead.
+
+  Suspect RAM error? Use redis-server --test-memory to verify it.
+
+  Some other issues could be detected by redis-server --check-system
